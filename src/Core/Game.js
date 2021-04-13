@@ -82,6 +82,12 @@ export class Game {
 								this.skier.jump();
 								event.preventDefault();
                 break;
-        }
+						case Constants.KEYS.ESC:
+							this.skier = new Skier(0, 0);
+							this.obstacleManager.obstacles = [];
+							this.obstacleManager.placeInitialObstacles();
+							event.preventDefault();
+							break;
+		}
     }
 }
