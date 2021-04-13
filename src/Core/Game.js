@@ -4,9 +4,10 @@ import { Canvas } from './Canvas';
 import { Skier } from "../Entities/Skier";
 import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rect } from './Utils';
+import { Rhino } from "../Entities/Rhino";
 
 export class Game {
-    gameWindow = null;
+    gameWindow = null; animFrame; rhino = null; cnt = 0;
 
     constructor() {
         this.assetManager = new AssetManager();
@@ -19,6 +20,7 @@ export class Game {
 
     init() {
         this.obstacleManager.placeInitialObstacles();
+				setTimeout(() => this.rhino = new Rhino(0,0), 5000)
     }
 
     async load() {
@@ -31,12 +33,22 @@ export class Game {
         this.updateGameWindow();
         this.drawGameWindow();
 
-        requestAnimationFrame(this.run.bind(this));
+        this.animFrame = requestAnimationFrame(this.run.bind(this));
     }
 
     updateGameWindow() {
-        this.skier.move();
-
+				if (!this.rhino || !this.rhino.eat) this.skier.move();
+				if (this.rhino) {
+					let xDiff = this.rhino.x-this.skier.x, yDiff = this.rhino.y-this.skier.y;
+					if (Math.abs(xDiff)+Math.abs(yDiff)<20) { this.rhino.eat = 1; cancelAnimationFrame(this.animFrame); 
+//						let n = 1, timer = setInterval(() => { console.log(this.rhino.assetName = 'eat${n++}'); this.rhino.draw(this.canvas, this.assetManager); if (n==7) clearInterval(timer)}, 200);
+					}
+					else { //this.skier.move();
+						this.rhino.y -= 10 * Math.sign(yDiff); 
+						this.rhino.x -= 10 * Math.sign(xDiff); 
+						console.log(this.rhino)
+					}
+				}
         const previousGameWindow = this.gameWindow;
         this.calculateGameWindow();
 
@@ -47,9 +59,10 @@ export class Game {
 
     drawGameWindow() {
         this.canvas.setDrawOffset(this.gameWindow.left, this.gameWindow.top);
-
-        this.skier.draw(this.canvas, this.assetManager);
+        if (!this.rhino || !this.rhino.eat) this.skier.draw(this.canvas, this.assetManager);
         this.obstacleManager.drawObstacles(this.canvas, this.assetManager);
+				if (this.rhino)
+					this.rhino.draw(this.canvas, this.assetManager);
     }
 
     calculateGameWindow() {
@@ -61,7 +74,11 @@ export class Game {
     }
 
     handleKeyDown(event) {
-        switch(event.which) {
+			if (event.which == Constants.KEYS.ESC) { 
+				event.preventDefault();
+				window.location.reload();
+			} else if (!this.rhino || !this.rhino.eat) {
+					switch(event.which) {
             case Constants.KEYS.LEFT:
                 this.skier.turnLeft();
                 event.preventDefault();
@@ -82,12 +99,7 @@ export class Game {
 								this.skier.jump();
 								event.preventDefault();
                 break;
-						case Constants.KEYS.ESC:
-							this.skier = new Skier(0, 0);
-							this.obstacleManager.obstacles = [];
-							this.obstacleManager.placeInitialObstacles();
-							event.preventDefault();
-							break;
-		}
+					}
+				}
     }
 }

@@ -17,6 +17,13 @@ export const JUMP2 = 'jump2';
 export const JUMP3 = 'jump3';
 export const JUMP4 = 'jump4';
 export const JUMP5 = 'jump5';
+export const RHINO = 'rhino';
+export const EAT1 = 'eat1';
+export const EAT2 = 'eat2';
+export const EAT3 = 'eat3';
+export const EAT4 = 'eat4';
+export const EAT5 = 'eat5';
+export const EAT6 = 'eat6';
 
 export const SKIER_STARTING_SPEED = 10;
 export const SKIER_DIAGONAL_SPEED_REDUCER = 1.4142;
@@ -37,7 +44,14 @@ export const ASSETS = {
 		[JUMP2] : 'img/skier_jump_2.png',
 		[JUMP3] : 'img/skier_jump_3.png',
 		[JUMP4] : 'img/skier_jump_4.png',
-		[JUMP5] : 'img/skier_jump_5.png'
+		[JUMP5] : 'img/skier_jump_5.png',
+		[RHINO] : 'img/rhino_default.png',
+		[EAT1] : 'img/rhino_lift.png',
+		[EAT2] : 'img/rhino_lift_mouth_open.png',
+		[EAT3] : 'img/rhino_lift_eat_1.png',
+		[EAT4] : 'img/rhino_lift_eat_2.png',
+		[EAT5] : 'img/rhino_lift_eat_3.png',
+		[EAT6] : 'img/rhino_lift_eat_4.png'
 };
 
 export const SKIER_DIRECTIONS = {
