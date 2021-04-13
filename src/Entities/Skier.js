@@ -7,6 +7,7 @@ export class Skier extends Entity {
 
     direction = Constants.SKIER_DIRECTIONS.DOWN;
     speed = Constants.SKIER_STARTING_SPEED;
+		jumpNo = 0;
 
     constructor(x, y) {
         super(x, y);
@@ -120,7 +121,22 @@ export class Skier extends Entity {
         });
 
         if(collision) {
-            this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
-        }
+						if (collision.assetName==='ramp') { this.jump(); }
+            else if (!this.jumpNo || !collision.assetName.startsWith('rock'))
+							{ this.jumpNo = 0; this.setDirection(Constants.SKIER_DIRECTIONS.CRASH); }
+        } 
     };
+
+		jump() {
+			if (this.direction > Constants.SKIER_DIRECTIONS.LEFT && 
+				this.direction !== Constants.SKIER_DIRECTIONS.RIGHT)
+					this.jumpNo = 1;
+		}
+
+		draw(canvas, assetManager) { let ticks = 60;
+				if (this.jumpNo)
+					if (this.jumpNo<ticks) this.assetName = `jump${Math.floor(++this.jumpNo*4/ticks)+1}`;
+					else { this.jumpNo = 0; this.updateAsset(); } 
+				super.draw(canvas, assetManager)
+		}
 }
