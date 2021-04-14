@@ -16,4 +16,5 @@ Implemented animated JUMP with space key and ramps
 * **Build something new:**
 
 Rhino appears after 5 minutes and chases the skier.
-Didn't go too far since Obstacles gets too many objects and app slows down
+Didn't go too far since Obstacles get too many objects and app slows down
+Restart the game with ESC button

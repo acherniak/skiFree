@@ -39,14 +39,11 @@ export class Game {
     updateGameWindow() {
 				if (!this.rhino || !this.rhino.eat) this.skier.move();
 				if (this.rhino) {
-					let xDiff = this.rhino.x-this.skier.x, yDiff = this.rhino.y-this.skier.y;
-					if (Math.abs(xDiff)+Math.abs(yDiff)<20) { this.rhino.eat = 1; cancelAnimationFrame(this.animFrame); 
-//						let n = 1, timer = setInterval(() => { console.log(this.rhino.assetName = 'eat${n++}'); this.rhino.draw(this.canvas, this.assetManager); if (n==7) clearInterval(timer)}, 200);
-					}
-					else { //this.skier.move();
-						this.rhino.y -= 10 * Math.sign(yDiff); 
+					let xDiff = this.rhino.x-this.skier.x, xAbs = Math.abs(xDiff), yDiff = this.rhino.y-this.skier.y, yAbs = Math.abs(yDiff);
+					if (xAbs+yAbs<20) { this.rhino.eat = 1; cancelAnimationFrame(this.animFrame); }
+					else { console.log(xDiff, yDiff)
 						this.rhino.x -= 10 * Math.sign(xDiff); 
-						console.log(this.rhino)
+						this.rhino.y -= 10 * Math.sign(yDiff); 
 					}
 				}
         const previousGameWindow = this.gameWindow;
